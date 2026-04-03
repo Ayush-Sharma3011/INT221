@@ -61,3 +61,9 @@ Route:: get('/students',function(){
     ];
     return view('students',compact('stud'));
 });
+
+Route::domain('hello.com')->group(function () {
+    Route::get('/greet', function () {
+        return 'Hello from hello.com!';
+    });
+});
