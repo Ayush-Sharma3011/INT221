@@ -67,3 +67,4 @@ Route::domain('hello.com')->group(function () {
         return 'Hello from hello.com!';
     });
 });
+
