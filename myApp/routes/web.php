@@ -1,6 +1,7 @@
-<?php
+﻿<?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -87,5 +88,46 @@ Route::get('/heading3', function () {
     return view('heading3');
 })->name('heading3');
 
-require __DIR__.'/auth.php';
+// Clothes Shop Routes - Using CaController
+Route::get('/clothes', [CaController::class, 'index'])->name('clothes');
+Route::get('/clothes/{id}', [CaController::class, 'show'])->name('clothes.show');
 
+Route::view('login','loginform');
+use App\Http\Controllers\sessionController;
+
+Route::post('login','sessionController@login')->name('login');
+Route::get('logout','sessionController@logout')->name('logout');
+
+Route::view('emailform','emailform');
+use App\Http\Controllers\emailcontroller;
+Route::post('email', [emailcontroller::class,'emaildata'])->name('email');
+
+
+// Route::get('setcookie',function(){
+//     return response("Cookie created")->cookie('user','Hitler', 2);
+// });
+// Route::get('getcookie',function(Illuminate\Http\Request $request){
+//     $cookie = $request->cookie('user');
+//     return response("Cookie value: " . $cookie);
+// });
+// Route::get('deletecookie',function(){
+//     return response("Cookie deleted")->cookie('user', '', -1);
+// });
+
+
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Http\Request;
+Route::get('setcookie', function () {
+    Cookie::queue('user', 'Hitler', 2);
+    return response("Cookie created");
+});
+Route::get('getcookie', function (Request $request) {
+    $cookie = Cookie::get('user');
+    return response("Cookie value: " . $cookie);
+});
+Route::get('deletecookie', function () {
+    Cookie::queue('user', '', -1);
+    return response("Cookie deleted");
+});
+
+require __DIR__.'/auth.php';
